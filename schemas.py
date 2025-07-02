@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from typing import Optional
 
 class ItemBase(BaseModel):
@@ -31,8 +31,13 @@ from uuid import UUID
 class UserRead(schemas.BaseUser[UUID]):
     is_superuser: bool = False
 
+# class UserCreate(schemas.BaseUserCreate):
+#     is_superuser: Optional[bool] =None
+    
+    
 class UserCreate(schemas.BaseUserCreate):
-    is_superuser: Optional[bool] =None
+    email: EmailStr
+    password: str
 
 class UserUpdate(schemas.BaseUserUpdate):
     is_superuser: Optional[bool] = None

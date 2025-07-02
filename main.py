@@ -95,18 +95,26 @@ from user_crud import router as  user_crud_router
 from schemas import UserRead, UserCreate, UserUpdate
 
 
-app.include_router(user_crud_router)
+# app.include_router(user_crud_router)
 
 
 
 app.include_router(
-    fastapi_users.get_auth_router(auth_backend),  # ✅ no [0]
+    fastapi_users.get_auth_router(auth_backend,True),  # ✅ no [0]
     prefix="/auth/jwt",
     tags=["auth"]
 )
 
 
+#token base varification
+app.include_router(
+    fastapi_users.get_verify_router(UserRead),
+    prefix="/auth",
+    tags=["auth"]
+)
 
+
+#user create 
 app.include_router(
     fastapi_users.get_register_router(UserRead, UserCreate),
     prefix="/auth",
@@ -114,11 +122,93 @@ app.include_router(
 )
 
 
-# app.include_router(
-#     fastapi_users.get_users_router(UserRead, UserUpdate),  # ✅ provide schemas
-#     prefix="/users",
-#     tags=["users"]
+
+#user update ,get 
+app.include_router(
+    fastapi_users.get_users_router(UserRead, UserUpdate,True),  # ✅ provide schemas
+    prefix="/users",
+    tags=["users"]
+)
+
+
+
+
+#password reset
+app.include_router(
+    fastapi_users.get_reset_password_router(),
+    prefix="/auth",
+    tags=["auth"]
+)
+
+
+
+
+
+
+
+
+
+# from fastapi_users.authentication import CookieTransport, AuthenticationBackend
+# from fastapi_users.authentication.strategy import OAuth2AuthorizationCodeBearer
+# from fastapi_users.authentication import get_oauth_router
+# from fastapi_users.oauth import OAuth2AuthorizeCallback
+
+# from fastapi_users.authentication import OAuth2PasswordBearerWithCookie
+# from fastapi_users.oauth.client import OAuth2
+
+# google_oauth_client = OAuth2(
+#     client_id="your-google-client-id",
+#     client_secret="your-google-client-secret",
+#     authorize_endpoint="https://accounts.google.com/o/oauth2/v2/auth",
+#     access_token_endpoint="https://oauth2.googleapis.com/token",
+#     client_kwargs={"scope": "email profile"},
 # )
+
+# auth_backend = AuthenticationBackend(
+#     name="jwt",
+#     transport=your_cookie_transport,
+#     get_strategy=your_strategy
+# )
+
+# app.include_router(
+#     fastapi_users.get_oauth_router(
+#         oauth_client=google_oauth_client,
+#         backend=auth_backend,
+#         state_secret="SUPER_SECRET_STATE_STRING",
+#         redirect_url="http://localhost:8000/auth/google/callback",
+#         associate_by_email=True,
+#         is_verified_by_default=True
+#     ),
+#     prefix="/auth/google",
+#     tags=["auth"]
+# )
+
+
+
+# app.include_router(
+#     fastapi_users.get_oauth_associate_router(
+#         oauth_client=google_oauth_client,
+#         user_schema=UserRead,
+#         state_secret="SUPER_SECRET_STATE_STRING",
+#         redirect_url="http://localhost:8000/link/google/callback",
+#         requires_verification=True
+#     ),
+#     prefix="/auth/link/google",
+#     tags=["auth"]
+# )
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

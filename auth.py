@@ -36,3 +36,11 @@ fastapi_users = FastAPIUsers[UserTable, UUID](
     [auth_backend],
 )
 
+
+
+
+
+
+
+
+
