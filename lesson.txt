@@ -1,0 +1,8 @@
+pip uninstall bcrypt passlib -y          #for uninstall two files
+
+ python create_superuser.py <email> <password>  #for creating admin superuser
+
+
+bapi@email.com bapi1234  2email and pass
+
+
